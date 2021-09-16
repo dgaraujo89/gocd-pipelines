@@ -6,9 +6,8 @@ pipelines:
     lock_behavior: unlockWhenFinished
     display_order: -1
     materials:
-      repo:
-        git: https://github.com/diegogomesaraujo/graphql-springboot
-        branch: master
+      graphql-springboot:
+        scm: 387b2a38-2bd7-45c5-8238-27a9afc81ba0
     stages:
     - build:
         fetch_materials: true
