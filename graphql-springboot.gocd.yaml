@@ -58,3 +58,23 @@ pipelines:
                     arguments:
                       - -c
                       - docker container run -d --name $GO_PIPELINE_NAME $GO_PIPELINE_NAME:$GO_PIPELINE_LABEL
+      - deploy_prod:
+          fetch_materials: false
+          approval:
+            type: manual
+            allow_only_on_success: true
+          jobs:
+            deploy:
+              resources:
+                - docker
+              tasks:
+                - exec:
+                    command: sh
+                    arguments:
+                      - -c
+                      - docker container rm -f $GO_PIPELINE_NAME
+                - exec:
+                    command: sh
+                    arguments:
+                      - -c
+                      - docker container run -d --name $GO_PIPELINE_NAME $GO_PIPELINE_NAME:$GO_PIPELINE_LABEL
