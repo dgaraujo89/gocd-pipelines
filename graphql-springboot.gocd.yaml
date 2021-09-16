@@ -51,7 +51,7 @@ pipelines:
                     arguments:
                       - container
                       - rm
-                      - -rf
+                      - -f
                       - $GO_PIPELINE_NAME
             start:
               tasks:
