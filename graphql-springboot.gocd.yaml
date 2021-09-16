@@ -2,7 +2,7 @@ format_version: 9
 pipelines:
   build:
     group: graphql-springboot-yaml-pipeline
-    # label_template: "${gitrepo[:8]}"
+    label_template: ${COUNT}
     materials:
       gitrepo:
         git: https://github.com/diegogomesaraujo/graphql-springboot
@@ -13,20 +13,24 @@ pipelines:
         fetch_materials: yes
         jobs:
           build:
+            resources:
+              - maven
             tasks:
               - exec:
                 command: mvn
                 arguments:
-                  - "clean"
-                  - "package"
-                  - "-DskipTests"
+                  - clean
+                  - package
+                  - -DskipTests
       - build_image:
         fetch_materials: no
         jobs:
           build:
+            resources:
+              - docker
             tasks:
               - exec:
                 command: sh
                 arguments:
-                  - "-c"
-                  - "docker build -t $GO_PIPELINE_NAME:$GO_PIPELINE_LABEL ."
+                  - -c
+                  - docker build -t $GO_PIPELINE_NAME:$GO_PIPELINE_LABEL .
