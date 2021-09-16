@@ -5,7 +5,7 @@ pipelines:
     group: graphql-springboot-yaml-pipeline
     label_template: ${COUNT}
     materials:
-      repo:
+      graphql-springboot-repo:
         type: git
         url: https://github.com/diegogomesaraujo/graphql-springboot.git
         branch: master
@@ -14,9 +14,9 @@ pipelines:
       fetch_materials: true
       keep_artifacts: false
       clean_workspace: false
-      approval:
-        type: success
-        allow_only_on_success: false
+      # approval:
+      #   type: success
+      #   allow_only_on_success: false
       jobs:
         build:
           resources:
