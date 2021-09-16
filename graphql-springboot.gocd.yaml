@@ -49,22 +49,12 @@ pipelines:
                 - docker
               tasks:
                 - exec:
-                    command: echo
+                    command: sh
                     arguments:
-                      - $GO_PIPELINE_NAME:$GO_PIPELINE_LABEL
+                      - -c
+                      - docker container rm -f $GO_PIPELINE_NAME
                 - exec:
-                    command: docker
+                    command: sh
                     arguments:
-                      - container
-                      - rm
-                      - -f
-                      - $GO_PIPELINE_NAME
-                - exec:
-                    command: docker
-                    arguments:
-                      - container
-                      - run
-                      - -d
-                      - --name
-                      - $GO_PIPELINE_NAME
-                      - $GO_PIPELINE_NAME:$GO_PIPELINE_LABEL
+                      - -c
+                      - docker container run -d --name $GO_PIPELINE_NAME $GO_PIPELINE_NAME:$GO_PIPELINE_LABEL
