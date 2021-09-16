@@ -7,7 +7,7 @@ pipelines:
       gitrepo:
         git: https://github.com/diegogomesaraujo/graphql-springboot
         branch: master
-    stage:
+    stages:
       - build:
         clean_workspace: false
         fetch_materials: yes
