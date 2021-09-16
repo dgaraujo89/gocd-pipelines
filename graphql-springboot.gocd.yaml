@@ -1,4 +1,5 @@
 format_version: 9
+environments:
 pipelines:
   build:
     group: graphql-springboot-yaml-pipeline
@@ -17,11 +18,11 @@ pipelines:
               - maven
             tasks:
               - exec:
-                command: mvn
-                arguments:
-                  - clean
-                  - package
-                  - -DskipTests
+                  command: mvn
+                  arguments:
+                    - clean
+                    - package
+                    - -DskipTests
       - build_image:
         fetch_materials: no
         jobs:
@@ -30,7 +31,7 @@ pipelines:
               - docker
             tasks:
               - exec:
-                command: sh
-                arguments:
-                  - -c
-                  - docker build -t $GO_PIPELINE_NAME:$GO_PIPELINE_LABEL .
+                  command: sh
+                  arguments:
+                    - -c
+                    - docker build -t $GO_PIPELINE_NAME:$GO_PIPELINE_LABEL .
