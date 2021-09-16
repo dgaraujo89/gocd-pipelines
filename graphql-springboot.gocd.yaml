@@ -44,7 +44,9 @@ pipelines:
             type: manual
             allow_only_on_success: true
           jobs:
-            stop:
+            deploy:
+              resources:
+                - docker
               tasks:
                 - exec:
                     command: docker
@@ -53,8 +55,6 @@ pipelines:
                       - rm
                       - -f
                       - $GO_PIPELINE_NAME
-            start:
-              tasks:
                 - exec:
                     command: docker
                     arguments:
