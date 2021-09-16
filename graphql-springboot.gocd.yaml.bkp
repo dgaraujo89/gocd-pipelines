@@ -1,0 +1,41 @@
+format_version: 10
+environments:
+pipelines:
+  graphql-springboot-yaml-pipeline-trigger:
+    group: graphql-springboot-yaml-pipeline
+    label_template: ${COUNT}
+    materials:
+      repo:
+        git: https://github.com/diegogomesaraujo/graphql-springboot
+        branch: master
+    stages:
+    - build:
+      fetch_materials: true
+      keep_artifacts: false
+      clean_workspace: false
+      approval:
+        type: success
+        allow_only_on_success: false
+      jobs:
+        build:
+          resources:
+          - maven
+          tasks:
+          - exec:
+              command: mvn
+              arguments:
+              - clean
+              - package
+              - -DskipTests
+    - build_image:
+      fetch_materials: no
+      jobs:
+        build:
+          resources:
+          - docker
+          tasks:
+          - exec:
+              command: sh
+              arguments:
+              - -c
+              - docker build -t $GO_PIPELINE_NAME:$GO_PIPELINE_LABEL .

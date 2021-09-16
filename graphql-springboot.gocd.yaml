@@ -1,41 +1,61 @@
 format_version: 10
-environments:
 pipelines:
-  graphql-springboot-yaml-pipeline-trigger:
+  graphql-springboot-trigger:
     group: graphql-springboot-yaml-pipeline
     label_template: ${COUNT}
+    lock_behavior: unlockWhenFinished
+    display_order: -1
     materials:
       repo:
         git: https://github.com/diegogomesaraujo/graphql-springboot
         branch: master
     stages:
     - build:
-      fetch_materials: true
-      keep_artifacts: false
-      clean_workspace: false
-      approval:
-        type: success
-        allow_only_on_success: false
-      jobs:
-        build:
-          resources:
-          - maven
-          tasks:
-          - exec:
-              command: mvn
-              arguments:
-              - clean
-              - package
-              - -DskipTests
-    - build_image:
-      fetch_materials: no
-      jobs:
-        build:
-          resources:
-          - docker
-          tasks:
-          - exec:
-              command: sh
-              arguments:
-              - -c
-              - docker build -t $GO_PIPELINE_NAME:$GO_PIPELINE_LABEL .
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          compile:
+            timeout: 0
+            resources:
+            - maven
+            tasks:
+            - exec:
+                arguments:
+                - -lha
+                command: ls
+                run_if: passed
+            - exec:
+                arguments:
+                - clean
+                - package
+                - -DskipTests
+                command: mvn
+                run_if: passed
+    - build-docker:
+        fetch_materials: false
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: true
+        jobs:
+          build-image:
+            timeout: 0
+            resources:
+            - docker
+            tasks:
+            - exec:
+                arguments:
+                - -lha
+                command: ls
+                run_if: passed
+            - exec:
+                arguments:
+                - -c
+                - docker build -t $GO_PIPELINE_NAME:$GO_PIPELINE_LABEL .
+                command: sh
+                run_if: passed
