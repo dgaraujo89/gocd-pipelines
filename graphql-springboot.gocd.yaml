@@ -12,9 +12,6 @@ pipelines:
           fetch_materials: true
           keep_artifacts: false
           clean_workspace: false
-          approval:
-            type: success
-            allow_only_on_success: false
           jobs:
             package:
               resources:
@@ -27,7 +24,10 @@ pipelines:
                       - package
                       - -DskipTests
       - build_image:
-          fetch_materials: no
+          fetch_materials: false
+          approval:
+            type: success
+            allow_only_on_success: true
           jobs:
             build:
               resources:
@@ -38,3 +38,15 @@ pipelines:
                     arguments:
                       - -c
                       - docker build -t $GO_PIPELINE_NAME:$GO_PIPELINE_LABEL .
+      - deploy_qa:
+          fetch_materials: false
+          approval:
+            type: manual
+            allow_only_on_success: true
+          jobs:
+            deploy:
+              tasks:
+                - exec:
+                  command: ls
+                  arguments:
+                    - -la
