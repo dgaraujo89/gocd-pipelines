@@ -49,6 +49,10 @@ pipelines:
                 - docker
               tasks:
                 - exec:
+                    command: echo
+                    arguments:
+                      - $GO_PIPELINE_NAME:$GO_PIPELINE_LABEL
+                - exec:
                     command: docker
                     arguments:
                       - container
