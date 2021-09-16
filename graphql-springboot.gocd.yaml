@@ -4,7 +4,7 @@ pipelines:
     group: graphql-springboot-yaml-pipeline
     label_template: ${COUNT}
     materials:
-      gitrepo:
+      repo:
         git: https://github.com/diegogomesaraujo/graphql-springboot
         branch: master
     stages:
