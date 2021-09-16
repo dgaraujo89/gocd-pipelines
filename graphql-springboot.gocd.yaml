@@ -47,12 +47,12 @@ pipelines:
             stop:
               tasks:
                 - exec:
-                  command: docker
-                  arguments:
-                    - container
-                    - rm
-                    - -rf
-                    - $GO_PIPELINE_NAME
+                    command: docker
+                    arguments:
+                      - container
+                      - rm
+                      - -rf
+                      - $GO_PIPELINE_NAME
             start:
               tasks:
                 - exec:
