@@ -1,6 +1,6 @@
 format_version: 10
 pipelines:
-  graphql-springboot-trigger:
+  graphql-springboot-yaml-pipeline:
     group: graphql-springboot-yaml-pipeline
     label_template: ${COUNT}
     lock_behavior: unlockWhenFinished
