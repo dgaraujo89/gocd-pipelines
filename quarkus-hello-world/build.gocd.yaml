@@ -18,7 +18,7 @@ pipelines:
                 - maven
               artifacts:
                 - build:
-                    source: target/
+                    source: hello-world/target/
                     destination: build
               tasks:
                 - exec:
