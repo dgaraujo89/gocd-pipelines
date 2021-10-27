@@ -20,11 +20,14 @@ pipelines:
                 - build:
                     source: target/
                     destination: build
+                - scripts:
+                    source: ops/
+                    destination: scripts
               tasks:
                 - exec:
                     command: /bin/bash
                     arguments:
-                      - ops/build.sh
+                      - mvn clean package
   hello-world-deploy:
     group: hello-world
     display_order: 2
@@ -38,19 +41,38 @@ pipelines:
           keep_artifacts: true
           clean_workspace: false
           approval:
-            type: manual
             allow_only_on_success: true
           jobs:
-            deploy:
+            build:
               resource:
                 - docker
               tasks:
                 - fetch:
-                    pipeline: hello-world-build
-                    stage: build
+                    # pipeline: hello-world-build
+                    # stage: build
                     job: build
                     source: build/
                     destination: ''
+                - fetch:
+                    job: build
+                    source: scripts/
+                    destination: ops
+                - exec:
+                    command: /bin/bash
+                    arguments:
+                      - ops/build.sh
+      - deploy:
+          fetch_materials: false
+          approval:
+            type: manual
+            allow_only_on_success: true
+          jobs:
+            deploy:
+              tasks:
+                - fetch:
+                    job: build
+                    source: scripts/
+                    destination: ops
                 - exec:
                     command: /bin/bash
                     arguments:
