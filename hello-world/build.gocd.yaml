@@ -25,3 +25,26 @@ pipelines:
                     command: /bin/bash
                     arguments:
                       - ops/build.sh
+    hello-world-deploy:
+      group: hello-world
+      display_order: 2
+      stages:
+        - deploy:
+            fetch_materials: true
+            keep_artifacts: true
+            clean_workspace: false
+            jobs:
+              deploy:
+                resource:
+                  - docker
+                tasks:
+                  - fetch:
+                      pipeline: hello-world-build
+                      stage: build
+                      job: build
+                      source: build/
+                      destination: ''
+                  - exec:
+                      command: /bin/bash
+                      arguments:
+                        - ops/deploy.sh
