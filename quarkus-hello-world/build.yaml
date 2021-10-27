@@ -1,0 +1,27 @@
+format_version: 10
+pipelines:
+  quarkus-hello-world-build:
+    group: quarkus-hello-world
+    display_order: 1
+    materials:
+      repo:
+        git: https://github.com/diegogomesaraujo/quarkus.git
+        branch: master
+    stages:
+      - build:
+          fetch_materials: true
+          keep_artifacts: true
+          clean_workspace: false
+          jobs:
+            build:
+              resources:
+                - maven
+              artifacts:
+                - build:
+                    source: target/
+                    destination: build
+              tasks:
+                - exec:
+                    command: /bin/bash
+                    arguments:
+                      - hello-world/ops/build.sh
