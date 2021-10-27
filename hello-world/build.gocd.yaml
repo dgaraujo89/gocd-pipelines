@@ -1,11 +1,11 @@
 format_version: 10
 pipelines:
-  quarkus-hello-world-build:
-    group: quarkus-hello-world
+  hello-world-build:
+    group: hello-world
     display_order: 1
     materials:
       repo:
-        git: https://github.com/diegogomesaraujo/quarkus.git
+        git: https://github.com/diegogomesaraujo/hello-pipeline-agocd-argocd.git
         branch: master
     stages:
       - build:
@@ -18,10 +18,10 @@ pipelines:
                 - maven
               artifacts:
                 - build:
-                    source: hello-world/target/
+                    source: target/
                     destination: build
               tasks:
                 - exec:
                     command: /bin/bash
                     arguments:
-                      - hello-world/ops/build.sh
+                      - ops/build.sh
