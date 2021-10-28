@@ -24,6 +24,10 @@ pipelines:
                 - exec:
                     command: /bin/bash
                     arguments:
+                      - ls -lh
+                - exec:
+                    command: /bin/bash
+                    arguments:
                       - mvn clean package
   hello-world-deploy:
     group: hello-world
