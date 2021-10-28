@@ -22,12 +22,9 @@ pipelines:
                     destination: artifacts
               tasks:
                 - exec:
-                    command: /bin/bash
+                    command: sh
                     arguments:
-                      - ops/build.sh
-                - exec:
-                    command: /bin/bash
-                    arguments:
+                      - -c
                       - mvn clean package
   hello-world-deploy:
     group: hello-world
