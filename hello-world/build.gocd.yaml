@@ -26,44 +26,71 @@ pipelines:
                     arguments:
                       - -c
                       - mvn clean package
-  hello-world-deploy:
-    group: hello-world
-    display_order: 2
-    materials:
-      repo:
-        git: https://github.com/diegogomesaraujo/hello-pipeline-agocd-argocd.git
-        branch: master
-      build:
-        pipeline: hello-world-build
-        stage: build
-    stages:
       - build-image:
-          fetch_materials: true
-          keep_artifacts: true
-          clean_workspace: false
-          jobs:
-            build:
-              resource:
-                - docker
-              tasks:
-                - exec:
-                    command: sh
-                    arguments:
-                      - -c
-                      - ls -lh artifacts
-                - exec:
-                    command: /bin/bash
-                    arguments:
-                      - ops/build.sh
-      - deploy:
           fetch_materials: false
-          approval:
-            type: manual
-            allow_only_on_success: true
-          jobs:
-            deploy:
-              tasks:
-                - exec:
-                    command: /bin/bash
-                    arguments:
-                      - ops/deploy.sh
+          resource:
+            - docker
+          tasks:
+            - fetch:
+                # pipeline: hello-world-build
+                stage: build
+                job: build
+                source: artifacts/
+                destination: ''
+            - exec:
+                command: sh
+                arguments:
+                  - -c
+                  - ls -lh artifacts
+            - exec:
+                command: /bin/bash
+                arguments:
+                  - ops/build.sh
+
+  # hello-world-deploy:
+  #   group: hello-world
+  #   display_order: 2
+  #   materials:
+  #     repo:
+  #       git: https://github.com/diegogomesaraujo/hello-pipeline-agocd-argocd.git
+  #       branch: master
+  #     build:
+  #       pipeline: hello-world-build
+  #       stage: build
+  #   stages:
+  #     - build-image:
+  #         fetch_materials: true
+  #         keep_artifacts: true
+  #         clean_workspace: false
+  #         jobs:
+  #           build:
+  #             resource:
+  #               - docker
+  #             tasks:
+  #               - fetch:
+  #                   pipeline: hello-world-build
+  #                   stage: build
+  #                   job: build
+  #                   source: artifacts/
+  #                   destination: ''
+  #               - exec:
+  #                   command: sh
+  #                   arguments:
+  #                     - -c
+  #                     - ls -lh artifacts
+  #               - exec:
+  #                   command: /bin/bash
+  #                   arguments:
+  #                     - ops/build.sh
+  #     - deploy:
+  #         fetch_materials: false
+  #         approval:
+  #           type: manual
+  #           allow_only_on_success: true
+  #         jobs:
+  #           deploy:
+  #             tasks:
+  #               - exec:
+  #                   command: /bin/bash
+  #                   arguments:
+  #                     - ops/deploy.sh
