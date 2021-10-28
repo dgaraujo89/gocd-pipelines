@@ -32,6 +32,9 @@ pipelines:
       repo:
         git: https://github.com/diegogomesaraujo/hello-pipeline-agocd-argocd.git
         branch: master
+      build:
+        pipeline: hello-world-build
+        stage: build
     stages:
       - build-image:
           fetch_materials: true
