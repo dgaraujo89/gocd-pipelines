@@ -53,6 +53,11 @@ pipelines:
                     source: artifacts/
                     destination: ''
                 - exec:
+                    command: sh
+                    arguments:
+                      - -c
+                      - ls -lh artifacts
+                - exec:
                     command: /bin/bash
                     arguments:
                       - ops/build.sh
