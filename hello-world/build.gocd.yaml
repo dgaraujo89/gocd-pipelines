@@ -18,11 +18,8 @@ pipelines:
                 - maven
               artifacts:
                 - build:
-                    source: target/
-                    destination: build
-                - scripts:
-                    source: ops/
-                    destination: scripts
+                    source: target/*.jar
+                    destination: artifacts
               tasks:
                 - exec:
                     command: /bin/bash
@@ -32,9 +29,9 @@ pipelines:
     group: hello-world
     display_order: 2
     materials:
-      build:
-        pipeline: hello-world-build
-        stage: build
+      repo:
+        git: https://github.com/diegogomesaraujo/hello-pipeline-agocd-argocd.git
+        branch: master
     stages:
       - build-image:
           fetch_materials: true
@@ -48,15 +45,11 @@ pipelines:
                 - docker
               tasks:
                 - fetch:
-                    # pipeline: hello-world-build
-                    # stage: build
+                    pipeline: hello-world-build
+                    stage: build
                     job: build
-                    source: build/
+                    source: artifacts/
                     destination: ''
-                - fetch:
-                    job: build
-                    source: scripts/
-                    destination: ops
                 - exec:
                     command: /bin/bash
                     arguments:
