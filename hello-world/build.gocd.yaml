@@ -37,8 +37,6 @@ pipelines:
           fetch_materials: true
           keep_artifacts: true
           clean_workspace: false
-          approval:
-            allow_only_on_success: true
           jobs:
             build:
               resource:
