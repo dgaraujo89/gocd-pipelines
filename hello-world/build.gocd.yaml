@@ -46,12 +46,6 @@ pipelines:
               resource:
                 - docker
               tasks:
-                - fetch:
-                    pipeline: hello-world-build
-                    stage: build
-                    job: build
-                    source: artifacts/
-                    destination: ''
                 - exec:
                     command: sh
                     arguments:
