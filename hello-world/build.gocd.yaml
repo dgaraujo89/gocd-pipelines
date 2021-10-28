@@ -24,7 +24,7 @@ pipelines:
                 - exec:
                     command: /bin/bash
                     arguments:
-                      - ls -lh
+                      - ops/build.sh
                 - exec:
                     command: /bin/bash
                     arguments:
