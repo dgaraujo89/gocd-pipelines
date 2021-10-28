@@ -60,10 +60,6 @@ pipelines:
           jobs:
             deploy:
               tasks:
-                - fetch:
-                    job: build
-                    source: scripts/
-                    destination: ops
                 - exec:
                     command: /bin/bash
                     arguments:
